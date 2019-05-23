@@ -25,8 +25,8 @@ From: ubuntu:18.04
 %post
 
     # Set apt proxy
-#    echo 'Acquire::http::Proxy "http://proxy.logti.etsmtl.ca:3128";' >> /etc/apt/apt.conf
-#    echo "" >> /etc/apt/apt.conf
+    echo 'Acquire::http::Proxy "http://proxy.logti.etsmtl.ca:3128";' >> /etc/apt/apt.conf
+    echo "" >> /etc/apt/apt.conf
 
     # Set noninteractive installation
     export DEBIAN_FRONTEND=noninteractive

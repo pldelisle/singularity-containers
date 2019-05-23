@@ -9,28 +9,30 @@ From: ubuntu:18.04
     mkdir ${SINGULARITY_ROOTFS}/download
 
 %files
+    /tmp/cuda-repo-ubuntu1710-9-2-local_9.2.148-1_amd64.deb          /download/cuda-repo-ubuntu1710-9-2-local_9.2.148-1_amd64.deb
     /tmp/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb                    /download/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb
-#    /tmp/libcudnn7_7.5.0.56-1+cuda9.2_amd64.deb                      /download/libcudnn7_7.5.0.56-1+cuda9.2_amd64.deb
-#    /tmp/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb                  /download/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb
-#    /tmp/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb                  /download/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb
-#    /tmp/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb         /download/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb
-#    /tmp/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb   /download/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
+    /tmp/libcudnn7_7.5.0.56-1+cuda9.2_amd64.deb                      /download/libcudnn7_7.5.0.56-1+cuda9.2_amd64.deb
+    /tmp/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb                  /download/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb
+    /tmp/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb                  /download/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb
+    /tmp/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb         /download/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb
+    /tmp/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb   /download/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
 
 %labels
-    Maintainer "Patrice Dion"
-    Maintainer "Pierre-Luc Delisle" <github@pierre-luc-delisle.com>
+    Maintainer "Patrice Dion" <patrice.dion@etsmtl.ca>
     Architecture x86_64
     Version v1.0.4
 
 %post
 
-    # Set apt proxy
-#    echo 'Acquire::http::Proxy "http://proxy.logti.etsmtl.ca:3128";' >> /etc/apt/apt.conf
-#    echo "" >> /etc/apt/apt.conf
+    # set apt proxy
+     echo 'Acquire::http::Proxy "http://proxy.logti.etsmtl.ca:3128";' >> /etc/apt/apt.conf
+     echo "" >> /etc/apt/apt.conf
 
-    # Set noninteractive installation
+     export HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"
+
+    # set noninteractive installation
     export DEBIAN_FRONTEND=noninteractive
-    # Install tzdata package
+    #install tzdata package
     apt-get update
     apt-get install -y tzdata
     # set your timezone
@@ -42,15 +44,22 @@ From: ubuntu:18.04
     apt-get -y install software-properties-common build-essential cmake wget clang htop
     add-apt-repository universe
 
+    # egl.h, eglext.h, gl31.h, libGLU.so, glu.h,-lglut
     apt-get -y install freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev libglfw3-dev libgles2-mesa-dev
 
-    # For Pycharm 2019.1, add missing libs for Jupyter Notebook rendering.
+    # Pour Pycharm 2019.1, rendering jupyter
     apt-get -y install libxslt1.1
     apt-get -y install libcanberra-gtk-module libcanberra-gtk3-module
 
     # Install gcc-7
-    # See https://stackoverflow.com/questions/6622454/cuda-incompatible-with-my-gcc-version/8969593
+    # voir h ttps://stackoverflow.com/questions/6622454/cuda-incompatible-with-my-gcc-version/8969593
     apt-get -y install gcc-7 g++-7
+
+    # Local installation
+    # dpkg -i /download/cuda-repo-ubuntu1710-9-2-local_9.2.148-1_amd64.deb
+    # apt-key add /var/cuda-repo-9-2-local/7fa2af80.pub
+    # apt-get update
+    # apt-get -y install cuda-toolkit-9-2 cuda-samples-9-2
 
     # Network installation
     dpkg -i /download/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb
@@ -58,14 +67,7 @@ From: ubuntu:18.04
     apt-get update
     apt-get -y install cuda-toolkit-9-2 cuda-samples-9-2
 
-    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7_7.5.0.56-1%2Bcuda9.2_amd64.deb     -O /download/libcudnn7_7.5.0.56-1%2Bcuda9.2_amd64.deb
-    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7-dev_7.5.0.56-1%2Bcuda9.2_amd64.deb -O /download/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb
-    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7-doc_7.5.0.56-1%2Bcuda9.2_amd64.deb -O /download/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb
-    wget https://developer.nvidia.com/compute/machine-learning/nccl/secure/v2.3/prod3/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb  -O /download/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb
-    wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb -O /download/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
-
-
-    # Install NVIDIA/CUDDN
+    # install NVIDIA/CUDDN
     dpkg -i /download/libcudnn*_amd64.deb
 
     # Install nccl in local repo /var/nccl-repo-2.4.2-ga-cuda9.2
@@ -73,13 +75,14 @@ From: ubuntu:18.04
     apt-get update
     apt-get -y install libnccl2 libnccl-dev
 
-    # Set cuda default compiler gcc-7
+    # set cuda default compiler gcc-7
     ln -s /usr/bin/gcc-7 /usr/local/cuda/bin/gcc
     ln -s /usr/bin/g++-7 /usr/local/cuda/bin/g++
 
+    #
     ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so
 
-    # Compile sample with gcc-7
+    # compile sample with gcc-6
     cd /usr/local/cuda-9.2/samples
     export CUDA_HOME=/usr/local/cuda-9.2
     export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
@@ -90,9 +93,9 @@ From: ubuntu:18.04
 
     make --ignore-errors -j4
 
-
-   # OpenCV 3.4.x
-   # See : https://gist.github.com/raulqf/a3caa97db3f8760af33266a1475d0e5e
+   #
+   # opencv 3.4.6
+   # voir : https://gist.github.com/raulqf/a3caa97db3f8760af33266a1475d0e5e
 
    apt-get -y install git wget curl
    apt-get -y install build-essential cmake pkg-config unzip yasm git gfortran
@@ -112,6 +115,8 @@ From: ubuntu:18.04
    apt-get -y install libgphoto2-dev libeigen3-dev libhdf5-dev doxygen
 
    apt-get -y install flake8 python3-flake8 pylint3
+
+   # Can't install libjasper-dev libjasper1, o not exist in 18.04
 
    export DPKG_DEPEND="ca-certificates \
 	            build-essential \
@@ -172,32 +177,34 @@ From: ubuntu:18.04
 
 for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
 
+
+
    cd /download
    git clone https://github.com/opencv/opencv.git
    cd opencv
-   git checkout OPENCV_VERSION
+   git checkout 3.4.6
    cd ..
 
    git clone https://github.com/opencv/opencv_contrib.git
    cd opencv_contrib
-   git checkout OPENCV_VERSION
+   git checkout 3.4.6
    cd ..
 
    git clone https://github.com/opencv/opencv_extra.git
    cd opencv_extra
-   git checkout OPENCV_VERSION
+   git checkout 3.4.6
    cd ..
 
    cd opencv
    mkdir build
    cd build
 
-   export OPENCV_DIR="/usr/local/opencv/OPENCV_VERSION"
+   export OPENCV_DIR="/usr/local/opencv/3.4.6"
 
    cmake \
     -D CMAKE_BUILD_TYPE=RELEASE \
     -D BUILD_PYTHON_SUPPORT=ON \
-    -D CMAKE_INSTALL_PREFIX=/usr/local/opencv/OPENCV_VERSION \
+    -D CMAKE_INSTALL_PREFIX=/usr/local/opencv/3.4.6 \
     -D CUDA_CUDA_LIBRARY=/usr/local/cuda-9.2/lib64/stubs/libcuda.so \
     -D INSTALL_PYTHON_EXAMPLES=ON \
     -D BUILD_PYTHON_SUPPORT=ON \
@@ -244,33 +251,40 @@ for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
     -D WITH_LIBV4L=ON \
     -D WITH_FFMPEG=0 \
     -D WITH_GSTREAMER=OFF \
-    -D CUDA_GENERATION="Maxwell" -D CUDA_GENERATION="Pascal" -D CUDA_GENERATION"Turing" -D CUDA_GENERATION"Volta" ..
+    -D CUDA_GENERATION="Maxwell" -D CUDA_GENERATION="Pascal" ..
 
-   make -j
+
+   make
 
    make install
 
-   # Install libraries
+
+   # libraries pour le lab
    pip3 --no-cache-dir install virtualenv
-   pip3 --no-cache-dir install numpy>=1.16.2
-   pip3 --no-cache-dir install joblib>=0.13.2
-   pip3 --no-cache-dir install pytest>=4.5.0
-   pip3 --no-cache-dir install graphviz>=0.10.1      # Visualisation
-   pip3 --no-cache-dir install matplotlib>=3.1.0     # Visualisation
-   pip3 --no-cache-dir install seaborn>=0.9.0        # Visualisation
-   pip3 --no-cache-dir install bokeh>=1.1.0          # Visualisation
-   pip3 --no-cache-dir install pandas>=0.24.2        # Data analysis
+   pip3 --no-cache-dir install pytest
+
+   pip3 --no-cache-dir install matplotlib     # visualisation
+   pip3 --no-cache-dir install seaborn        # visualisation
+   pip3 --no-cache-dir install pandas
    pip3 --no-cache-dir install jupyter
 
-   # Installation of QT4 for Jupyter (dependency)
+   # installation de qt4 pour jupiter (dependance)
    apt-get install --assume-yes python3-pyqt4
 
-   # voir http://docs.dask.org/en/latest/install.html
-   pip3 --no-cache-dir install "dask[complete]"     # Parallel
+   pip3 --no-cache-dir install bokeh          # visualisation
 
-   pip3 --no-cache-dir install ipython=>7.5
-   pip3 --no-cache-dir install scikit-image>=0.15.0
-   pip3 --no-cache-dir install scikit-learn>=0.21.1
+   # voir http://docs.dask.org/en/latest/install.html
+   pip3 --no-cache-dir install "dask[complete]"     # parallel
+
+   pip3 --no-cache-dir install ipython
+   pip3 --no-cache-dir install scikit-image
+   pip3 --no-cache-dir install scikit-learn>=0.20.3
+   pip3 --no-cache-dir install numPy
+   pip3 --no-cache-dir install joblib
+   pip3 --no-cache-dir install graphviz
+
+   # ImportError: cannot import name create_prmpt_application ipython>6 for prompttoolkit>2
+   pip3 install ipython==7.5
 
 %test
       # /usr/bin/nvidia-smi
@@ -298,26 +312,96 @@ for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
 %environment
    export LC_ALL=C
 
-   export OPENCV_VERSION=3.4.6
-
    export CUDA_HOME=/usr/local/cuda-9.2
 
    export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
    export LD_LIBRARY_PATH=${CUDA_HOME}/extras/CUPTI/lib64:$LD_LIBRARY_PATH
    export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-   export LD_LIBRARY_PATH=/usr/local/opencv/$OPENCV_VERSION/lib:$LD_LIBRARY_PATH
+   export LD_LIBRARY_PATH=/usr/local/opencv/3.4.6/lib:$LD_LIBRARY_PATH
 
    export PATH=${CUDA_HOME}/bin:${PATH}
    export PATH=${CUDA_HOME}/samples/bin/x86_64/linux/release:${PATH}
 
-   export PYTHONPATH=/usr/local/opencv/$OPENCV_VERSION/lib/python3.6/dist-packages/:${PYTHONPATH}
+   export PYTHONPATH=/usr/local/opencv/3.4.6/lib/python3.6/dist-packages/:${PYTHONPATH}
    export PYTHONPATH=/usr/local/lib/python3.6/dist-packages/:${PYTHONPATH}
 
    export HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"
 
-   # Jupyter Notebook /run/user/1000/
-   # Permission issue for /run/user/0/jupyter when I execute Jupyter Notebook
-   # See https://groups.google.com/forum/#!topic/jupyter/uQ8Jqz4rnu0
+   # jupyter notebook /run/user/1000/
+   # Permission issue for /run/user/0/jupyter when I execute jupyter notebook
+   # voir https://groups.google.com/forum/#!topic/jupyter/uQ8Jqz4rnu0
    unset XDG_RUNTIME_DIR
 
 EOF
+
+
+# Building the container
+
+singularity build --notest opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64-with-source.simg  opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64-with-source.def
+singularity shell --nv opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64-with-source.simg
+
+#
+# build and test de container
+#
+singularity build --sandbox opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64-with-source/  opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64-with-source.def
+singularity shell --nv --writable-tmpfs opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64-with-source/
+singularity build opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64-with-source.simg  opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64-with-source/
+
+#
+# Installation de package python
+#
+virtualenv --system-site-packages -p python3 gti770-test
+source gti770-test/bin/activate
+python3 -c 'import cv2 as cv ; print(cv.__version__)'
+pip3 install camelcase
+
+
+#
+# execute as an interpretor
+#
+
+singularity exec --nv /singularity/opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.simg /bin/bash
+singularity exec --nv /singularity/opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.simg /home/ladmin/venv.sh && python3 --version
+singularity exec --nv /singularity/opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.simg "/home/ladmin/venv.sh ; python3 -c 'import cv2 as cv ; print(cv.__version__)'"
+
+
+cat python3-singularity.sh
+  #!/bin/bash
+
+  #echo $@
+  #singularity exec --nv /singularity/opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.simg /home/ladmin/venv.sh && python3 $@
+
+  singularity exec --nv /singularity/opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.simg "/home/ladmin/venv.sh"
+
+
+
+singularity run --nv /singularity/opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.simg /bin/bash -c "source gti770-test/bin/activate"; python3 --version
+
+# Run pycharm in the container
+# -H change $HOME to /home/ladmin : default = /usr/local/singularity/3.1.0
+singularity shell -B /opt/PyCharm:/opt/PyCharm -B /etc/profile.d/jetbrains-pycharm.sh -H /home/ladmin --nv --writable-tmpfs /singularity/opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.simg
+
+
+# enable %runscript
+singularity run --nv /singularity/opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.simg  python3 -c 'import cv2 as cv ; print(cv.__version__)'
+singularity run --nv /singularity/opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.simg  python3 --version
+
+# run python without source activate
+venv.sh
+    #!/home/ladmin/gti770-test/bin/python3
+
+    import cv2 as cv
+    print(cv.__version__)
+
+
+# voir https://stackoverflow.com/questions/4303128/how-to-use-multiple-arguments-for-awk-with-a-shebang-i-e
+#!/usr/bin/env -S command arg1 arg2
+
+
+# Remove /download directory
+#
+
+singularity build --sandbox opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64/ opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64-with-source.simg
+rm -Rf  opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64/download
+singularity build  opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.simg opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64/
+rm -Rf opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64

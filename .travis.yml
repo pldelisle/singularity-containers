@@ -44,7 +44,7 @@ install:
 
 script:
                                # recipe
-  - /bin/bash .travis/build.sh Singularity
+  - /bin/bash .travis/build.sh opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.def
 
                                # recipe with tag
   #- /bin/bash .travis/build.sh --tag sneeze Singularity.tag

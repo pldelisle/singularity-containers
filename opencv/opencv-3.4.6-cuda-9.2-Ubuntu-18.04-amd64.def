@@ -6,7 +6,33 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
      With the --nv option the driver libs are located on the host system and then bind mounted into the container at runtime.
 
 #%setup
-#    mkdir ${SINGULARITY_ROOTFS}/download
+    mkdir ${SINGULARITY_ROOTFS}/download
+
+%environment
+   export LC_ALL=C
+
+   export OPENCV_VERSION=3.4.6
+   export NCCL_VERSION=2.4.7-1+cuda9.2
+
+   export CUDA_HOME=/usr/local/cuda-9.2
+
+   export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
+   export LD_LIBRARY_PATH=${CUDA_HOME}/extras/CUPTI/lib64:$LD_LIBRARY_PATH
+   export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+   export LD_LIBRARY_PATH=/usr/local/opencv/$OPENCV_VERSION/lib:$LD_LIBRARY_PATH
+
+   export PATH=${CUDA_HOME}/bin:${PATH}
+   export PATH=${CUDA_HOME}/samples/bin/x86_64/linux/release:${PATH}
+
+   export PYTHONPATH=/usr/local/opencv/$OPENCV_VERSION/lib/python3.6/dist-packages/:${PYTHONPATH}
+   export PYTHONPATH=/usr/local/lib/python3.6/dist-packages/:${PYTHONPATH}
+
+   export HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"
+
+   # Jupyter Notebook /run/user/1000/
+   # Permission issue for /run/user/0/jupyter when I execute Jupyter Notebook
+   # See https://groups.google.com/forum/#!topic/jupyter/uQ8Jqz4rnu0
+   unset XDG_RUNTIME_DIR
 
 %files
 #    /tmp/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb                    /download/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb
@@ -69,8 +95,8 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
               flake8 \
               python3-flake8 \
               pylint3 \
-              libnccl2=${NCCL_VERSION} \
-              libnccl-dev=${NCCL_VERSION} \
+              libnccl2=2.4.7-1+cuda9.2 \
+              libnccl-dev=2.4.7-1+cuda9.2 \
               libx11-dev \
               libxmu-dev \
               libxi-dev \
@@ -279,30 +305,6 @@ for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
       exec /usr/bin/python3 "$@"
 
 
-%environment
-   export LC_ALL=C
 
-   export OPENCV_VERSION=3.4.6
-   export NCCL_VERSION=2.4.7-1+cuda9.2
-
-   export CUDA_HOME=/usr/local/cuda-9.2
-
-   export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
-   export LD_LIBRARY_PATH=${CUDA_HOME}/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-   export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-   export LD_LIBRARY_PATH=/usr/local/opencv/$OPENCV_VERSION/lib:$LD_LIBRARY_PATH
-
-   export PATH=${CUDA_HOME}/bin:${PATH}
-   export PATH=${CUDA_HOME}/samples/bin/x86_64/linux/release:${PATH}
-
-   export PYTHONPATH=/usr/local/opencv/$OPENCV_VERSION/lib/python3.6/dist-packages/:${PYTHONPATH}
-   export PYTHONPATH=/usr/local/lib/python3.6/dist-packages/:${PYTHONPATH}
-
-   export HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"
-
-   # Jupyter Notebook /run/user/1000/
-   # Permission issue for /run/user/0/jupyter when I execute Jupyter Notebook
-   # See https://groups.google.com/forum/#!topic/jupyter/uQ8Jqz4rnu0
-   unset XDG_RUNTIME_DIR
 
 EOF

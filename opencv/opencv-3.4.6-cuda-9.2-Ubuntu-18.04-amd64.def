@@ -14,7 +14,7 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
    export OPENCV_VERSION=3.4.6
    export NCCL_VERSION=2.4.7-1+cuda9.2
 
-   export CUDA_HOME=/usr/local/cuda-9.2
+   export CUDA_HOME=/usr/local/cuda
 
    export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
    export LD_LIBRARY_PATH=${CUDA_HOME}/extras/CUPTI/lib64:$LD_LIBRARY_PATH
@@ -26,8 +26,6 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
 
    export PYTHONPATH=/usr/local/opencv/$OPENCV_VERSION/lib/python3.6/dist-packages/:${PYTHONPATH}
    export PYTHONPATH=/usr/local/lib/python3.6/dist-packages/:${PYTHONPATH}
-
-   export HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"
 
    # Jupyter Notebook /run/user/1000/
    # Permission issue for /run/user/0/jupyter when I execute Jupyter Notebook
@@ -60,9 +58,9 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
     apt-get install -y software-properties-common
     add-apt-repository universe
 
-    # ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so
+    ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so
 
-    export CUDA_HOME=/usr/local/cuda-9.2
+    export CUDA_HOME=/usr/local/cuda
     export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
     export LD_LIBRARY_PATH=/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 
@@ -157,7 +155,7 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
               doxygen"
 
 
-for i in ${DPKG_DEPEND}; do apt-get --assume-yes --allow-change-held-packages --no-install-recommends install  $i; done
+for i in ${DPKG_DEPEND}; do apt-get --assume-yes --allow-change-held-packages --no-install-recommends install $i  > /dev/null 2>&1; done
 
   # For Pycharm 2019.1, add missing libs for Jupyter Notebook rendering.
   apt-get -y install libxslt1.1

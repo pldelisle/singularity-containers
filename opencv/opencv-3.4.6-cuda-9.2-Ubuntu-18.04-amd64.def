@@ -71,17 +71,17 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
       git \
       unzip \
       yasm \
+      flake8 \
       gfortran \
       python3-dev \
       python3-pip \
       python3-tk \
+      python3-flake8 \
+      pylint3 \
       pkg-config \
       freeglut3-dev \
       clang \
       htop \
-      flake8 \
-      python3-flake8 \
-      pylint3 \
       libnccl2=${NCCL_VERSION} \
       libnccl-dev=${NCCL_VERSION} \
       libx11-dev \
@@ -118,7 +118,6 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
       libtiff-dev \
       libgtk-3-dev \
       libatlas-base-dev \
-      gfortran \
       openblas-* \
       libopenblas-dev \
       ocl-icd-opencl-dev \
@@ -151,15 +150,18 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
     for i in ${DPKG_DEPEND}; do apt-get --assume-yes --allow-change-held-packages --no-install-recommends install $i  > /dev/null 2>&1; done
 
     # For Pycharm 2019.1.1, add missing libs for Jupyter Notebook rendering through container.
-    apt-get -y install libxslt1.1
-    apt-get -y install libcanberra-gtk-module libcanberra-gtk3-module
+    apt-get -y install libxslt1.1 > /dev/null 2>&1
+    apt-get -y install libcanberra-gtk-module libcanberra-gtk3-module > /dev/null 2>&1
 
     # Install gcc-7
     # See https://stackoverflow.com/questions/6622454/cuda-incompatible-with-my-gcc-version/8969593
-    apt-get -y install gcc-7 g++-7
+    apt-get -y install gcc-7 g++-7 > /dev/null 2>&1
     # Set cuda default compiler gcc-7
     ln -s /usr/bin/gcc-7 /usr/local/cuda/bin/gcc
     ln -s /usr/bin/g++-7 /usr/local/cuda/bin/g++
+
+    # Install Numpy for OpenCV compilation.
+    pip3 --no-cache-dir install numpy>=1.16.2
 
     mkdir /Downloads && cd "$_"
     cd /Downloads
@@ -239,15 +241,14 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
       -D CPU_DISPATCH=SSE4_2,AVX \
       -D CPU_DISPATCH=AVX \
       -D CPU_DISPATCH=AVX,AVX2 \
-      -D CUDA_GENERATION="Maxwell" -D CUDA_GENERATION="Pascal" -D CUDA_GENERATION"Turing" -D CUDA_GENERATION"Volta" ..
+      -D CUDA_GENERATION="Maxwell" -D CUDA_GENERATION="Pascal" -D CUDA_GENERATION="Turing" -D CUDA_GENERATION="Volta" ..
 
     make -j
 
     make install
 
     # Install libraries
-    pip3 --no-cache-dir install virtualenv
-    pip3 --no-cache-dir install numpy>=1.16.2
+    pip3 --no-cache-dir install virtualenv>=16.6.0
     pip3 --no-cache-dir install joblib>=0.13.2
     pip3 --no-cache-dir install pytest>=4.5.0
     pip3 --no-cache-dir install graphviz>=0.10.1      # Visualisation

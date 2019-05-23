@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: nvidia/cuda/9.2-runtime-ubuntu18.04
+From: nvidia/cuda/9.2-cudnn7-runtime-ubuntu18.04
 
 %help
      Use the --nv switch.
@@ -9,7 +9,7 @@ From: nvidia/cuda/9.2-runtime-ubuntu18.04
     mkdir ${SINGULARITY_ROOTFS}/download
 
 %files
-    /tmp/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb                    /download/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb
+#    /tmp/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb                    /download/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb
 #    /tmp/libcudnn7_7.5.0.56-1+cuda9.2_amd64.deb                      /download/libcudnn7_7.5.0.56-1+cuda9.2_amd64.deb
 #    /tmp/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb                  /download/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb
 #    /tmp/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb                  /download/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb
@@ -23,108 +23,82 @@ From: nvidia/cuda/9.2-runtime-ubuntu18.04
     Version v1.0.4
 
 %post
-
-    # Set apt proxy
-#    echo 'Acquire::http::Proxy "http://proxy.logti.etsmtl.ca:3128";' >> /etc/apt/apt.conf
-#    echo "" >> /etc/apt/apt.conf
-
     # Set noninteractive installation
     export DEBIAN_FRONTEND=noninteractive
+
     # Install tzdata package
     apt-get update
     apt-get install -y tzdata
-    # set your timezone
+    # Set timezone
     ln -fs /usr/share/zoneinfo/America/Montreal /etc/localtime
     dpkg-reconfigure --frontend noninteractive tzdata
 
     apt-get update
     apt-get -y upgrade
-    apt-get -y install software-properties-common build-essential cmake wget clang htop
     add-apt-repository universe
 
-    apt-get -y install freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev libglfw3-dev libgles2-mesa-dev
+    # ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so
 
-    # For Pycharm 2019.1, add missing libs for Jupyter Notebook rendering.
-    apt-get -y install libxslt1.1
-    apt-get -y install libcanberra-gtk-module libcanberra-gtk3-module
-
-    # Install gcc-7
-    # See https://stackoverflow.com/questions/6622454/cuda-incompatible-with-my-gcc-version/8969593
-    apt-get -y install gcc-7 g++-7
-
-    # Network installation
-    dpkg -i /download/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb
-    apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
-    apt-get update
-    apt-get -y install cuda-toolkit-9-2 cuda-samples-9-2
-
-    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7_7.5.0.56-1%2Bcuda9.2_amd64.deb     -O /download/libcudnn7_7.5.0.56-1%2Bcuda9.2_amd64.deb
-    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7-dev_7.5.0.56-1%2Bcuda9.2_amd64.deb -O /download/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb
-    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7-doc_7.5.0.56-1%2Bcuda9.2_amd64.deb -O /download/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb
-    wget https://developer.nvidia.com/compute/machine-learning/nccl/secure/v2.3/prod3/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb  -O /download/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb
-    wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb -O /download/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
-
-
-    # Install NVIDIA/CUDDN
-    dpkg -i /download/libcudnn*_amd64.deb
-
-    # Install nccl in local repo /var/nccl-repo-2.4.2-ga-cuda9.2
-    dpkg -i /download/nccl*_amd64.deb
-    apt-get update
-    apt-get -y install libnccl2 libnccl-dev
-
-    # Set cuda default compiler gcc-7
-    ln -s /usr/bin/gcc-7 /usr/local/cuda/bin/gcc
-    ln -s /usr/bin/g++-7 /usr/local/cuda/bin/g++
-
-    ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so
-
-    # Compile sample with gcc-7
-    cd /usr/local/cuda-9.2/samples
     export CUDA_HOME=/usr/local/cuda-9.2
     export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
     export LD_LIBRARY_PATH=/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 
     export PATH=${CUDA_HOME}/bin:${PATH}
-    export PATH=${CUDA_HOME}/samples/bin/x86_64/linux/release:${PATH}
-
-    make --ignore-errors -j4
-
 
    # OpenCV 3.4.x
    # See : https://gist.github.com/raulqf/a3caa97db3f8760af33266a1475d0e5e
 
-   apt-get -y install git wget curl
-   apt-get -y install build-essential cmake pkg-config unzip yasm git gfortran
-   apt-get -y install libjpeg8-dev libtiff5-dev libpng-dev
-   apt-get -y install libavcodec-dev libavformat-dev libswscale-dev
-   apt-get -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-   apt-get -y install libxvidcore-dev x264 libx264-dev libfaac-dev libmp3lame-dev libtheora-dev libvorbis-dev
-   apt-get -y install libgtk-3-dev
-
-   apt-get -y install python3-dev python3-pip
-   pip3 install pip numpy
-   apt-get -y install libtbb-dev
-   apt-get -y install libatlas-base-dev gfortran
-
-   apt-get -y install libprotobuf-dev protobuf-compiler
-   apt-get -y install libgoogle-glog-dev libgflags-dev
-   apt-get -y install libgphoto2-dev libeigen3-dev libhdf5-dev doxygen
-
-   apt-get -y install flake8 python3-flake8 pylint3
-
    export DPKG_DEPEND="ca-certificates \
+              wget \
+              curl \
 	            build-essential \
 	            apt-utils \
  	            cmake \
 	            git \
-	            libgtk2.0-dev \
+	            unzip \
+              yasm \
+              gfortran \
+              python3-dev \
+              python3-pip \
+              python3-tk \
 	            pkg-config \
+              freeglut3-dev \
+              software-properties-common \
+              clang \
+              htop \
+              flake8 \
+              python3-flake8 \
+              pylint3 \
+              libnccl2=${NCCL_VERSION} \
+              libnccl-dev=${NCCL_VERSION} \
+              libx11-dev \
+              libxmu-dev \
+              libxi-dev \
+              libgl1-mesa-glx \
+              libglu1-mesa \
+              libglu1-mesa-dev \
+              libglfw3-dev \
+              libgles2-mesa-dev \
+              libgtk-3-dev \
+              libjpeg8-dev \
+              libtiff5-dev \
+              libpng-dev \
+              libavcodec-dev \
+              libavformat-dev \
+              libswscale-dev \
+              libgstreamer1.0-dev \
+              libgstreamer-plugins-base1.0-dev \
+              libxvidcore-dev \
+              x264 \
+              libx264-dev \
+              libfaac-dev \
+              libmp3lame-dev \
+              libtheora-dev \
+              libvorbis-dev \
+              libgtk2.0-dev \
 	            libavcodec-dev \
 	            libavformat-dev \
 	            libswscale-dev \
-	            wget \
-	            libhdf5-dev \
 	            g++ \
 	            graphviz \
 	            libtbb2 \
@@ -139,12 +113,6 @@ From: nvidia/cuda/9.2-runtime-ubuntu18.04
 	            libopenblas-dev \
 	            libeigen3-dev \
 	            ocl-icd-opencl-dev \
-	            python3-dev \
-	            python3-tk \
-	            python3-numpy \
-	            python3-scipy \
-	            python3-h5py \
-	            python3-sympy \
 	            libcupti-dev \
 	            libgtkglext1-dev \
 	            libgtkglext1 \
@@ -157,7 +125,6 @@ From: nvidia/cuda/9.2-runtime-ubuntu18.04
 	            libhdf5-serial-dev \
 	            libboost-dev \
 	            libboost-all-dev \
-	            libatlas-base-dev \
 	            libopencore-amrnb-dev \
 	            libopencore-amrwb-dev \
 	            libtheora-dev \
@@ -167,10 +134,27 @@ From: nvidia/cuda/9.2-runtime-ubuntu18.04
 	            libopenni2-dev \
 	            libgflags-dev \
 	            libgoogle-glog-dev \
-	            liblmdb-dev"
+	            liblmdb-dev \
+              libtbb-dev \
+              libgphoto2-dev \
+              libeigen3-dev \
+              libhdf5-dev \
+              doxygen"
 
 
 for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
+
+  # For Pycharm 2019.1, add missing libs for Jupyter Notebook rendering.
+  apt-get -y install libxslt1.1
+  apt-get -y install libcanberra-gtk-module libcanberra-gtk3-module
+
+  # Install gcc-7
+  # See https://stackoverflow.com/questions/6622454/cuda-incompatible-with-my-gcc-version/8969593
+  apt-get -y install gcc-7 g++-7
+  # Set cuda default compiler gcc-7
+  ln -s /usr/bin/gcc-7 /usr/local/cuda/bin/gcc
+  ln -s /usr/bin/g++-7 /usr/local/cuda/bin/g++
+
 
    cd /download
    git clone https://github.com/opencv/opencv.git
@@ -299,6 +283,7 @@ for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
    export LC_ALL=C
 
    export OPENCV_VERSION=3.4.6
+   export NCCL_VERSION=2.4.7-1+cuda9.2
 
    export CUDA_HOME=/usr/local/cuda-9.2
 

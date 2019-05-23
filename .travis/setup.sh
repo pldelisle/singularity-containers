@@ -3,11 +3,11 @@
 #sudo sed -i -e 's/^Defaults\tsecure_path.*$//' /etc/sudoers
 
 # Check Python
-apt-get install python3-*
+sudo apt-get install python3-*
 
 echo "Python Version:"
-python --version
-pip install --user sregistry[all]
+python3 --version
+pip3 install --user sregistry[all]
 sregistry version
 
 echo "sregistry Version:"
@@ -24,4 +24,4 @@ git clone -b release-3.2 https://github.com/sylabs/singularity
 cd singularity
 ./mconfig -v -p /usr/local
 make -j `nproc 2>/dev/null || echo 1` -C ./builddir all
-make -C ./builddir install
+sudo make -C ./builddir install

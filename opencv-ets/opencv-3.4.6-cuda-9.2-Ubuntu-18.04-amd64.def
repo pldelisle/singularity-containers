@@ -167,7 +167,9 @@ From: ubuntu:18.04
 	            libopenni2-dev \
 	            libgflags-dev \
 	            libgoogle-glog-dev \
-	            liblmdb-dev"
+	            liblmdb-dev \
+              libtbb-dev \
+              libtbb2"
 
 
 for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
@@ -208,7 +210,9 @@ for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
     -D PYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.6m.so \
     -D PYTHON3_NUMPY_INCLUDE_DIRS=/usr/lib/python3/dist-packages/numpy/core/include/ \
     -D OPENCV_TEST_DATA_PATH=/download/opencv_extra/testdata\
-    -D WITH_TBB=OFF \
+    -D CPU_BASELINE=SSE2 \
+    -D CPU_BASELINE=AVX \
+    -D WITH_TBB=ON \
     -D WITH_PTHREADS_PF=ON \
     -D WITH_OPENNI=OFF \
     -D WITH_OPENNI2=ON \
@@ -265,7 +269,7 @@ for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
    # Installation of QT4 for Jupyter (dependency)
    apt-get install --assume-yes python3-pyqt4
 
-   # voir http://docs.dask.org/en/latest/install.html
+   # See http://docs.dask.org/en/latest/install.html
    pip3 --no-cache-dir install "dask[complete]"     # Parallel
 
    pip3 --no-cache-dir install ipython=>7.5

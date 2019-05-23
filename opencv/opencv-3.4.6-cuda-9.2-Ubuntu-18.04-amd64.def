@@ -34,14 +34,6 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
    # See https://groups.google.com/forum/#!topic/jupyter/uQ8Jqz4rnu0
    unset XDG_RUNTIME_DIR
 
-%files
-#    /tmp/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb                    /download/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb
-#    /tmp/libcudnn7_7.5.0.56-1+cuda9.2_amd64.deb                      /download/libcudnn7_7.5.0.56-1+cuda9.2_amd64.deb
-#    /tmp/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb                  /download/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb
-#    /tmp/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb                  /download/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb
-#    /tmp/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb         /download/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb
-#    /tmp/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb   /download/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
-
 %labels
     Maintainer "Patrice Dion"
     Maintainer "Pierre-Luc Delisle" <github@pierre-luc-delisle.com>
@@ -51,6 +43,10 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
 %post
     # Set noninteractive installation
     export DEBIAN_FRONTEND=noninteractive
+
+    # Export versions
+    export OPENCV_VERSION=3.4.6
+    export NCCL_VERSION=2.4.7-1+cuda9.2
 
     # Install tzdata package
     apt-get update
@@ -95,8 +91,8 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
               flake8 \
               python3-flake8 \
               pylint3 \
-              libnccl2=2.4.7-1+cuda9.2 \
-              libnccl-dev=2.4.7-1+cuda9.2 \
+              libnccl2=${NCCL_VERSION} \
+              libnccl-dev=${NCCL_VERSION} \
               libx11-dev \
               libxmu-dev \
               libxi-dev \
@@ -109,9 +105,6 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
               libjpeg8-dev \
               libtiff5-dev \
               libpng-dev \
-              libavcodec-dev \
-              libavformat-dev \
-              libswscale-dev \
               libgstreamer1.0-dev \
               libgstreamer-plugins-base1.0-dev \
               libxvidcore-dev \
@@ -137,7 +130,6 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
 	            gfortran \
 	            openblas-* \
 	            libopenblas-dev \
-	            libeigen3-dev \
 	            ocl-icd-opencl-dev \
 	            libcupti-dev \
 	            libgtkglext1-dev \
@@ -153,22 +145,19 @@ From: nvidia/cuda:9.2-cudnn7-runtime-ubuntu18.04
 	            libboost-all-dev \
 	            libopencore-amrnb-dev \
 	            libopencore-amrwb-dev \
-	            libtheora-dev \
-	            libvorbis-dev \
 	            libxvidcore-dev \
 	            liblapacke-dev \
 	            libopenni2-dev \
 	            libgflags-dev \
 	            libgoogle-glog-dev \
 	            liblmdb-dev \
-              libtbb-dev \
               libgphoto2-dev \
               libeigen3-dev \
               libhdf5-dev \
               doxygen"
 
 
-for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
+for i in ${DPKG_DEPEND}; do apt-get --assume-yes --allow-change-held-packages --no-install-recommends install  $i; done
 
   # For Pycharm 2019.1, add missing libs for Jupyter Notebook rendering.
   apt-get -y install libxslt1.1
@@ -185,24 +174,24 @@ for i in ${DPKG_DEPEND}; do apt-get --assume-yes install  $i; done
    cd /download
    git clone https://github.com/opencv/opencv.git
    cd opencv
-   git checkout OPENCV_VERSION
+   git checkout ${OPENCV_VERSION}
    cd ..
 
    git clone https://github.com/opencv/opencv_contrib.git
    cd opencv_contrib
-   git checkout OPENCV_VERSION
+   git checkout ${OPENCV_VERSION}
    cd ..
 
    git clone https://github.com/opencv/opencv_extra.git
    cd opencv_extra
-   git checkout OPENCV_VERSION
+   git checkout ${OPENCV_VERSION}
    cd ..
 
    cd opencv
    mkdir build
    cd build
 
-   export OPENCV_DIR="/usr/local/opencv/OPENCV_VERSION"
+   export OPENCV_DIR="/usr/local/opencv/${OPENCV_VERSION}"
 
    cmake \
     -D CMAKE_BUILD_TYPE=RELEASE \

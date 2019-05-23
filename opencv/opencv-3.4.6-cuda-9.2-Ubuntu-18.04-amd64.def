@@ -6,7 +6,8 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
     With the --nv option the driver libs are located on the host system and then bind mounted into the container at runtime.
 
 %setup
-
+    mkdir ~/Downloads
+    
 %environment
     export LC_ALL=C
 

@@ -107,8 +107,6 @@ if [ -f "$recipe" ]; then
 
     echo "Creating $imagefile using $recipe..."
 
-    wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb  -O /tmp/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb
-    
     sudo singularity build $imagefile $recipe
     chmod +x $imagefile
 

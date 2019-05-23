@@ -252,7 +252,7 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
       -D CPU_DISPATCH=AVX,AVX2 \
       -D CUDA_GENERATION="Maxwell" -D CUDA_GENERATION="Pascal" -D CUDA_GENERATION="Turing" -D CUDA_GENERATION="Volta" ..
 
-    make
+    make -j 2
 
     make install
 
@@ -278,21 +278,16 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
     pip3 --no-cache-dir install scikit-learn>=0.21.1
 
 %test
-    # /usr/bin/nvidia-smi
-    # /usr/local/cuda-9.2/samples/bin/x86_64/linux/release/deviceQuery
-
-    # is the package installed
-    #  pkg-config opencv --cflags
-    #  pkg-config opencv --libs
-
-    # export LD_LIBRARY_PATH=/usr/local/opencv/3.4.6/lib:$LD_LIBRARY_PATH
-    # python3 -c 'import cv2 as cv ; print(cv.__version__)'
+    python3 -c 'import cv2 ; print(cv2.__version__)'
 
     # Test the installation
-    # export OPENCV_TEST_DATA_PATH=/Downloads/opencv_extra/testdata
-    # cd /Downloads/opencv/build/bin
-    # ./opencv_test-core
-    # ls -al *test*
+    export OPENCV_TEST_DATA_PATH=/Downloads/opencv_extra/testdata
+    cd /Downloads/opencv/build/bin
+    ./opencv_test-core
+    ls -al *test*
+
+    g++ -o test test/test.cpp
+    ./test/test
 
 %runscript
     # https://singularity.lbl.gov/docs-run

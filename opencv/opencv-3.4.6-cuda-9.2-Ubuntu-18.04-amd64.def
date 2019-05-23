@@ -29,14 +29,7 @@ From: ubuntu:18.04
     echo "" >> /etc/apt/apt.conf
 
     export HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"
-    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7_7.5.0.56-1%2Bcuda9.2_amd64.deb     -O /download/libcudnn7_7.5.0.56-1%2Bcuda9.2_amd64.deb
-    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7-dev_7.5.0.56-1%2Bcuda9.2_amd64.deb -O /download/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb
-    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7-doc_7.5.0.56-1%2Bcuda9.2_amd64.deb -O /download/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb
 
-    wget https://developer.nvidia.com/compute/machine-learning/nccl/secure/v2.3/prod3/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb  -O /download/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb
-
-    wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb -O /download/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
-    
     # Set noninteractive installation
     export DEBIAN_FRONTEND=noninteractive
     # Install tzdata package
@@ -66,6 +59,13 @@ From: ubuntu:18.04
     apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
     apt-get update
     apt-get -y install cuda-toolkit-9-2 cuda-samples-9-2
+
+    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7_7.5.0.56-1%2Bcuda9.2_amd64.deb     -O /download/libcudnn7_7.5.0.56-1%2Bcuda9.2_amd64.deb
+    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7-dev_7.5.0.56-1%2Bcuda9.2_amd64.deb -O /download/libcudnn7-dev_7.5.0.56-1+cuda9.2_amd64.deb
+    wget https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.5.0.56/prod/9.2_20190219/Ubuntu16_04-x64/libcudnn7-doc_7.5.0.56-1%2Bcuda9.2_amd64.deb -O /download/libcudnn7-doc_7.5.0.56-1+cuda9.2_amd64.deb
+    wget https://developer.nvidia.com/compute/machine-learning/nccl/secure/v2.3/prod3/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb  -O /download/nccl-repo-ubuntu1604-2.3.7-ga-cuda9.2_1-1_amd64.deb
+    wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb -O /download/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
+
 
     # Install NVIDIA/CUDDN
     dpkg -i /download/libcudnn*_amd64.deb

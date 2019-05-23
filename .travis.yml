@@ -6,7 +6,7 @@ go:
     - "1.12.5"
 
 python:
-    - "3.6.8"
+    - "3.6.7å"
 
 addons:
   apt:
@@ -33,7 +33,7 @@ sudo: required
 
 matrix:
   include:
-    - python: "3.6.8"
+    - python: "3.6.7"
 
 before_install:
   - sudo apt-get update

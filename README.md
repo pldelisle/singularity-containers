@@ -57,6 +57,7 @@ https://github.com/opencv/opencv/wiki/CPU-optimizations-build-optionsy
 
 ##### Various
 https://gist.github.com/raulqf/a3caa97db3f8760af33266a1475d0e5e
+https://github.com/BVLC/caffe/wiki/OpenCV-3.2-Installation-Guide-on-Ubuntu-16.04
 
 ## Setup
 #### Building the container (with CUDA support)

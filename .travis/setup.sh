@@ -3,6 +3,7 @@
 #sudo sed -i -e 's/^Defaults\tsecure_path.*$//' /etc/sudoers
 
 # Check Python
+apt-get install python3-*
 
 echo "Python Version:"
 python --version

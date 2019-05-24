@@ -35,17 +35,17 @@ This repository aims at keeping various versions of these libraries compiled in 
 ### Web links:
 
 #### NVIDIA
-https://docs.nvidia.com/cuda/archive/9.2/cuda-installation-guide-linux/index.html
-https://docs.nvidia.com/cuda/archive/10.0/cuda-installation-guide-linux/index.html
-https://docs.nvidia.com/cuda/archive/10.1/cuda-installation-guide-linux/index.html
-https://devblogs.nvidia.com/gpu-containers-runtime/
-https://www.nvidia.com/object/unix.html
-https://developer.nvidia.com/nccl
-https://developer.nvidia.com/cudnn
+https://docs.nvidia.com/cuda/archive/9.2/cuda-installation-guide-linux/index.html  
+https://docs.nvidia.com/cuda/archive/10.0/cuda-installation-guide-linux/index.html  
+https://docs.nvidia.com/cuda/archive/10.1/cuda-installation-guide-linux/index.html  
+https://devblogs.nvidia.com/gpu-containers-runtime/  
+https://www.nvidia.com/object/unix.html  
+https://developer.nvidia.com/nccl  
+https://developer.nvidia.com/cudnn  
 
 #### Singularity
-https://github.com/sylabs/singularity/issues/1292
-https://singularity.lbl.gov/docs-recipes#best-practices-for-build-recipes
+https://github.com/sylabs/singularity/issues/1292  
+https://singularity.lbl.gov/docs-recipes#best-practices-for-build-recipes  
 
 
 ## Setup
@@ -77,7 +77,9 @@ As of now, Travis-CI automatic building works. Unfortunately, the free package d
 Bamboo server is configured for building containers on a private server : pldelisle.no-ip.info:8086. This Bamboo server runs in a Docker container where Golang and Singularity are both installed.
 
 To run this container :
-> docker run -v /home/pierre-luc-delisle/Documents/bamboo:/var/atlassian/application-data/bamboo --name="bamboo-server" --privileged -d -p 54663:54663 -p 8086:8085 --restart always pldelisle/bamboo-server-singularity
+```bash
+docker run -v /home/pierre-luc-delisle/Documents/bamboo:/var/atlassian/application-data/bamboo --name="bamboo-server" --privileged -d -p 54663:54663 -p 8086:8085 --restart always pldelisle/bamboo-server-singularity
+```
 
 Image is stored on [Dockerhub](https://cloud.docker.com/u/pldelisle/repository/docker/pldelisle/bamboo-server-singularity)
 

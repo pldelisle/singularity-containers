@@ -19,12 +19,6 @@ This repository aims at keeping various versions of these libraries compiled in 
 -  [Project architecture](#project-architecture)
     -  [Folder structure](#folder-structure)
     -  [Main Components](#main-components)
-        -  [Models](#models)
-        -  [Trainers](#trainers)
-        -  [Transformers](#transformers)
-        -  [Logger](#logger)
-        -  [Configuration](#configs)
-        -  [Main](#main)
  -  [Contributing](#contributing)
  -  [Branch naming](#branch-naming)
  -  [Commits syntax](#commits-syntax)
@@ -43,6 +37,8 @@ This repository aims at keeping various versions of these libraries compiled in 
 
 ##### NVIDIA
 https://docs.nvidia.com/cuda/archive/9.2/cuda-installation-guide-linux/index.html
+https://docs.nvidia.com/cuda/archive/10.0/cuda-installation-guide-linux/index.html
+https://docs.nvidia.com/cuda/archive/10.1/cuda-installation-guide-linux/index.html
 https://devblogs.nvidia.com/gpu-containers-runtime/
 https://www.nvidia.com/object/unix.html
 https://developer.nvidia.com/nccl
@@ -75,18 +71,31 @@ https://github.com/BVLC/caffe/wiki/OpenCV-3.2-Installation-Guide-on-Ubuntu-16.04
 ### Folder structure
 
 ```
+├── .travis                 - Contains Travis-CI files to automatically build containers on Travis' infrastructure.
+|
 ├── icons                   - Contains project's artwork.
 |
-├── opencv                 - OpenCV containers.
-│   ├── .def                  -
-│   └── .def                  -
+├── opencv                  - OpenCV containers.
+│   ├── opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.def.def                  - CUDA enabled OpenCV container.
+│   └── opencv-3.4.6-Ubuntu-18.04-amd64.def.def                           - x86-64 optimized OpenCV container.
 |
-├── pytorch                  -
+├── pytorch                 - PyTorch containers.
 |   └── .def
 |
-├── tensorflow            -
+├── tensorflow              - Tensorflow containers.
 |   └── .def
 ```
+
+### Continuous integration
+
+As of now, Travis-CI automatic building works. Unfortunately, the free package doesn't allow more than 50 minutes for a build. After that time, builds will fail. This repository is ready for a paid Travis-CI package where the option for unlimited minutes for building are included.
+
+Bamboo server is configured for building containers on a private server : pldelisle.no-ip.info:8086. This Bamboo server runs in a Docker container where Golang and Singularity are both installed.
+
+To run this container :
+> docker run -v /home/pierre-luc-delisle/Documents/bamboo:/var/atlassian/application-data/bamboo --name="bamboo-server" --privileged -d -p 54663:54663 -p 8086:8085 --restart always pldelisle/bamboo-server-singularity
+
+Image is stored on [Dockerhub](https://cloud.docker.com/u/pldelisle/repository/docker/pldelisle/bamboo-server-singularity)
 
 ## Contributing
 If you find a bug or have an idea for an improvement, please follow this procedure:

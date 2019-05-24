@@ -56,3 +56,4 @@ script:
   #- /bin/bash .travis/build.sh --uri collection/container --cli google-drive Singularity
   #- /bin/bash .travis/build.sh --uri collection/container --cli globus Singularity
   - /bin/bash .travis/build.sh opencv/opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.def
+  - /bin/bash .travis/build.sh opencv/opencv-3.4.6-Ubuntu-18.04-amd64.def

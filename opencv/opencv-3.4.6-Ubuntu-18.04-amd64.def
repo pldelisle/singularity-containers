@@ -1,28 +1,18 @@
 Bootstrap: docker
-From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
-
-%help
-    Use the --nv switch.
-    With the --nv option the driver libs are located on the host system and then bind mounted into the container at runtime.
+From: ubuntu:18.04
 
 %environment
     export LC_ALL=C
 
-    export CUDA_HOME=/usr/local/cuda
-
     export OPENCV_VERSION=3.4.6
 
-    export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
-    export LD_LIBRARY_PATH=${CUDA_HOME}/extras/CUPTI/lib64:$LD_LIBRARY_PATH
     export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
     export LD_LIBRARY_PATH=/usr/local/opencv/$OPENCV_VERSION/lib:$LD_LIBRARY_PATH
-
-    export PATH=${CUDA_HOME}/bin:${PATH}
 
     export PYTHONPATH=/usr/local/opencv/$OPENCV_VERSION/lib/python3.6/dist-packages/:${PYTHONPATH}
     export PYTHONPATH=/usr/local/lib/python3.6/dist-packages/:${PYTHONPATH}
 
-    export PKG_CONFIG_PATH=/usr/local/opencv/3.4.6/lib/pkgconfig
+    export PKG_CONFIG_PATH=/usr/local/opencv/$OPENCV_VERSION/lib/pkgconfig
 
     # Jupyter Notebook /run/user/1000/
     # Permission issue for /run/user/0/jupyter when I execute Jupyter Notebook
@@ -42,7 +32,6 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
     # Export versions and paths
     export OPENCV_VERSION=3.4.6
     export OPENCV_DIR="/usr/local/opencv/${OPENCV_VERSION}"
-    export NCCL_VERSION=2.4.7-1+cuda9.2
 
     # Install tzdata package
     apt-get update > /dev/null 2>&1
@@ -56,14 +45,6 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
     add-apt-repository universe
     # For libjasper for OpenCV.
     add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
-
-    ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so
-
-    export CUDA_HOME=/usr/local/cuda
-    export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
-    export LD_LIBRARY_PATH=/usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-
-    export PATH=${CUDA_HOME}/bin:${PATH}
 
     # OpenCV 3.4.x
     # See : https://gist.github.com/raulqf/a3caa97db3f8760af33266a1475d0e5e
@@ -90,8 +71,6 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
       freeglut3-dev \
       clang \
       htop \
-      libnccl2=${NCCL_VERSION} \
-      libnccl-dev=${NCCL_VERSION} \
       libx11-dev \
       libxmu-dev \
       libxi-dev \
@@ -172,11 +151,7 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
     apt-get -y install libcanberra-gtk-module libcanberra-gtk3-module > /dev/null 2>&1
 
     # Install gcc-7
-    # See https://stackoverflow.com/questions/6622454/cuda-incompatible-with-my-gcc-version/8969593
     apt-get -y install gcc-7 g++-7 > /dev/null 2>&1
-    # Set cuda default compiler gcc-7
-    ln -s /usr/bin/gcc-7 /usr/local/cuda/bin/gcc
-    ln -s /usr/bin/g++-7 /usr/local/cuda/bin/g++
 
     # Install Numpy for OpenCV compilation.
     pip3 --no-cache-dir install numpy>=1.16.2
@@ -206,7 +181,6 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
       -D CMAKE_BUILD_TYPE=RELEASE \
       -D BUILD_PYTHON_SUPPORT=ON \
       -D CMAKE_INSTALL_PREFIX=/usr/local/opencv/${OPENCV_VERSION} \
-      -D CUDA_CUDA_LIBRARY=/usr/local/cuda-9.2/lib64/stubs/libcuda.so \
       -D INSTALL_PYTHON_EXAMPLES=ON \
       -D BUILD_PYTHON_SUPPORT=ON \
       -D BUILD_NEW_PYTHON_SUPPORT=ON \
@@ -226,25 +200,10 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
       -D BUILD_PERF_TESTS=ON \
       -D BUILD_EXAMPLES=ON \
       -D WITH_OPENCL=ON \
-      -D WITH_CUDA=ON \
-      -D WITH_CUBLAS=ON \
       -D USE_GStreamer=ON \
       -D WITH_GDAL=ON \
       -D WITH_CSTRIPES=ON \
-      -D WITH_NVCUVID=ON \
       -D ENABLE_FAST_MATH=1 \
-      -D CUDA_FAST_MATH=1 \
-      -D BUILD_opencv_gpu=ON \
-      -D BUILD_opencv_gpuarithm=ON \
-      -D BUILD_opencv_gpubgsegm=ON \
-      -D BUILD_opencv_gpucodec=ON \
-      -D BUILD_opencv_gpufeatures2d=ON \
-      -D BUILD_opencv_gpufilters=ON \
-      -D BUILD_opencv_gpuimgproc=ON \
-      -D BUILD_opencv_gpulegacy=ON \
-      -D BUILD_opencv_gpuoptflow=ON \
-      -D BUILD_opencv_gpustereo=ON \
-      -D BUILD_opencv_gpuwarping=ON \
       -D WITH_OPENGL=ON \
       -D WITH_QT=ON \
       -D WITH_IPP=ON \
@@ -257,8 +216,7 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
       -D CPU_BASELINE=AVX \
       -D CPU_DISPATCH=SSE4_2,AVX \
       -D CPU_DISPATCH=AVX \
-      -D CPU_DISPATCH=AVX,AVX2 \
-      -D CUDA_GENERATION="Maxwell" -D CUDA_GENERATION="Pascal" -D CUDA_GENERATION="Turing" -D CUDA_GENERATION="Volta" ..
+      -D CPU_DISPATCH=AVX,AVX2 ..
 
     make -j 4
 
@@ -286,16 +244,19 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
     pip3 --no-cache-dir install scikit-learn>=0.21.1
 
 %test
+    # List all available python modules
+    python3 -c 'help('modules')'
     python3 -c 'import cv2 ; print(cv2.__version__)'
+
+    # Check if the package is installed
+    pkg-config opencv --cflags
+    pkg-config opencv --libs
 
     # Test the installation
     export OPENCV_TEST_DATA_PATH=/Downloads/opencv_extra/testdata
     cd /Downloads/opencv/build/bin
     ./opencv_test-core
     ls -al *test*
-
-    g++ -o test test/test.cpp
-    ./test/test
 
 %runscript
     # https://singularity.lbl.gov/docs-run

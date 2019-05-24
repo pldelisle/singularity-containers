@@ -11,9 +11,8 @@
 
 
 ## Authors
-
-    * Patrice Dion
-    * Pierre-Luc Delisle - [pldelisle](https://github.com/pldelisle)
+* Patrice Dion
+* Pierre-Luc Delisle - [pldelisle](https://github.com/pldelisle)
 
 ## Current version
 * OpenCV 3.4.6

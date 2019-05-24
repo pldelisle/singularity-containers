@@ -26,7 +26,6 @@ This repository aims at keeping various versions of these libraries compiled in 
 
 
 ## Authors
-
 * Patrice Dion
 * Pierre-Luc Delisle - [pldelisle](https://github.com/pldelisle)
 

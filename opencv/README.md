@@ -57,7 +57,9 @@ wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu
 
 ### To use ÉTS internal Proxy server
 Add line in the recipe under `%post` section.
-> export SINGULARITY_HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"  
+> ```bash
+export SINGULARITY_HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"
+```  
 
 ### Building OpenCV
 https://github.com/opencv/opencv/wiki/CPU-optimizations-build-optionsy

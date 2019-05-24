@@ -1,19 +1,16 @@
 #!/bin/bash -ex
 
-#sudo sed -i -e 's/^Defaults\tsecure_path.*$//' /etc/sudoers
+sudo sed -i -e 's/^Defaults\tsecure_path.*$//' /etc/sudoers
 
 # Check Python
-sudo apt-get install python3-*
-
 echo "Python Version:"
 python3 --version
-pip3 install --user sregistry[all]
+pip install --user sregistry[all]
 sregistry version
 
 echo "sregistry Version:"
 
 # Install Singularity
-
 SINGULARITY_BASE="${GOPATH}/src/github.com/sylabs/singularity"
 export PATH="${GOPATH}/bin:${PATH}"
 

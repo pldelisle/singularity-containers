@@ -32,9 +32,9 @@ This repository aims at keeping various versions of these libraries compiled in 
 
 ## References
 
-#### Web links:
+### Web links:
 
-##### NVIDIA
+#### NVIDIA
 https://docs.nvidia.com/cuda/archive/9.2/cuda-installation-guide-linux/index.html
 https://docs.nvidia.com/cuda/archive/10.0/cuda-installation-guide-linux/index.html
 https://docs.nvidia.com/cuda/archive/10.1/cuda-installation-guide-linux/index.html
@@ -43,16 +43,10 @@ https://www.nvidia.com/object/unix.html
 https://developer.nvidia.com/nccl
 https://developer.nvidia.com/cudnn
 
-##### Singularity
+#### Singularity
 https://github.com/sylabs/singularity/issues/1292
 https://singularity.lbl.gov/docs-recipes#best-practices-for-build-recipes
 
-##### OpenCV
-https://github.com/opencv/opencv/wiki/CPU-optimizations-build-optionsy
-
-##### Various
-https://gist.github.com/raulqf/a3caa97db3f8760af33266a1475d0e5e
-https://github.com/BVLC/caffe/wiki/OpenCV-3.2-Installation-Guide-on-Ubuntu-16.04
 
 ## Setup
 See respective README in containers' folders.

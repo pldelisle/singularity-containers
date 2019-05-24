@@ -41,6 +41,13 @@ Need a download token directly from NVIDIA Developer Zone.
 Add line in the recipe under `&post` section.
 > export SINGULARITY_HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"  
 
+### Building OpenCV
+https://github.com/opencv/opencv/wiki/CPU-optimizations-build-optionsy
+
+### Various
+https://gist.github.com/raulqf/a3caa97db3f8760af33266a1475d0e5e
+https://github.com/BVLC/caffe/wiki/OpenCV-3.2-Installation-Guide-on-Ubuntu-16.04
+
 
 ## Building containers
 

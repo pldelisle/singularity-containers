@@ -51,6 +51,7 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
 
     apt-get install -y software-properties-common > /dev/null 2>&1
     add-apt-repository universe
+    # For libjasper for OpenCV.
     add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
 
     ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so
@@ -277,7 +278,7 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
     # See http://docs.dask.org/en/latest/install.html
     pip3 --no-cache-dir install "dask[complete]"     # Parallel
 
-    pip3 --no-cache-dir install ipython=>7.5
+    pip3 --no-cache-dir install ipython>=7.5
     pip3 --no-cache-dir install scikit-image>=0.15.0
     pip3 --no-cache-dir install scikit-learn>=0.21.1
 

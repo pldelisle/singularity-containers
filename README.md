@@ -1,12 +1,10 @@
 # <img src="/icons/container.png" width="60" vertical-align="bottom"> Singularity Containers
 
-## Welcome to SAMITorch
-<!--
-[![Build Status](https://travis-ci.com/sami-ets/SAMITorch.svg?branch=master)](https://travis-ci.com/sami-ets/SAMITorch)
-![GitHub All Releases](https://img.shields.io/github/downloads/sami-ets/SAMITorch/total.svg)
-![GitHub issues](https://img.shields.io/github/issues/sami-ets/SAMITorch.svg)
-![GitHub](https://img.shields.io/github/license/sami-ets/SAMITorch.svg)
-![GitHub contributors](https://img.shields.io/github/contributors/sami-ets/SAMITorch.svg) -->
+## Welcome to Singularity Containers
+
+![GitHub issues](https://img.shields.io/github/issues/pldelisle/singularity-containers.svg)
+![GitHub](https://img.shields.io/github/license/pldelisle/singularity-containers.svg)
+![GitHub contributors](https://img.shields.io/github/contributors/pldelisle/singularity-containers.svg)
 
 This repository regroups multiple Singularity containers recipes for building and compiling high performance Python libraries used in various deep learning usage such as OpenCV, PyTorch and TensorFlow. These recipes are currently deployed in [École de technologie supérieure](https://www.etsmtl.ca/) in Software Engineering computer laboratories and research servers.
 

@@ -22,8 +22,8 @@
 ## References
 
 ### To download CUDA 9.2
-> `wget https://developer.nvidia.com/compute/cuda/9.2/Prod2/local_installers/cuda-repo-ubuntu1710-9-2-local_9.2.148-1_amd64 -O /tmp/cuda-repo-ubuntu1710-9-2-local_9.2.148-1_amd64.deb  `
-> `wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb  -O /tmp/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb  `
+> `wget https://developer.nvidia.com/compute/cuda/9.2/Prod2/local_installers/cuda-repo-ubuntu1710-9-2-local_9.2.148-1_amd64 -O /tmp/cuda-repo-ubuntu1710-9-2-local_9.2.148-1_amd64.deb  `  
+> `wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb  -O /tmp/cuda-repo-ubuntu1710_9.2.148-1_amd64.deb  `  
 
 ### To download CUDNN
 Need a download token directly from NVIDIA Developer Zone.

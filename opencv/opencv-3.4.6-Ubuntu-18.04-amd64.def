@@ -157,7 +157,6 @@ From: ubuntu:18.04
     pip3 --no-cache-dir install numpy>=1.16.2
 
     mkdir /Downloads && cd "$_"
-    cd /Downloads
     git clone https://github.com/opencv/opencv.git
     cd opencv
     git checkout ${OPENCV_VERSION}

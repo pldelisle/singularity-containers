@@ -57,7 +57,7 @@ wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu
 
 ### To use ÉTS internal Proxy server
 Add line in the recipe under `%post` section.
-> ```bash
+```bash
 export SINGULARITY_HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"
 ```  
 
@@ -73,19 +73,26 @@ https://github.com/BVLC/caffe/wiki/OpenCV-3.2-Installation-Guide-on-Ubuntu-16.04
 
 #### Building the container (with CUDA support)
 
-> singularity build <container-name>.simg  <path/to/container-name>.def  
+```bash
+singularity build <container-name>.simg  <path/to/container-name>.def  
+```  
 
 #### Building the container (without CUDA support)
-
-> singularity build <container-name>.simg  <path/to/container-name>.def  
+```bash
+singularity build <container-name>.simg  <path/to/container-name>.def  
+```  
 
 
 ## Running containers
 
 #### With NVIDIA drivers
-> singularity shell --nv <container-name>.simg  
+```bash
+singularity shell --nv <container-name>.simg  
+```  
 
 #### Without NVIDIA drivers
-> singularity shell <container-name>.simg  
+```bash
+singularity shell <container-name>.simg  
+```  
 
 ## Notes

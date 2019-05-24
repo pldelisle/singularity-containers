@@ -1,9 +1,28 @@
 # <img src="/icons/opencv.png" width="60" vertical-align="bottom"> OpenCV
 
-### Current version
+## OpenCV Containers
+
+
+# Table Of Contents
+
+-  [Authors](#authors)
+-  [Current Versions](#current version)
+-  [References](#references)
+-  [Building containers](#building containers)
+-  [Running containers](#running containers)
+
+
+## Authors
+
+    * Patrice Dion
+    * Pierre-Luc Delisle - [pldelisle](https://github.com/pldelisle)
+
+## Current version
 * OpenCV 3.4.6
 * NVIDIA CUDA 9.2
 * GCC 7.2
+
+## References
 
 ### To download CUDA 9.2
 > wget https://developer.nvidia.com/compute/cuda/9.2/Prod2/local_installers/cuda-repo-ubuntu1710-9-2-local_9.2.148-1_amd64 -O /tmp/cuda-repo-ubuntu1710-9-2-local_9.2.148-1_amd64.deb
@@ -23,3 +42,25 @@ Need a download token directly from NVIDIA Developer Zone.
 
 ### To use ÉTS internal Proxy server
 > export SINGULARITY_HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"
+
+
+## Building containers
+
+### Building the container (with CUDA support)
+
+> singularity build <container-name>.simg  <path/to/container-name>.def
+
+### Building the container (without CUDA support)
+
+> singularity build <container-name>.simg  <path/to/container-name>.def
+
+
+### Running containers
+
+#### With NVIDIA drivers
+> singularity shell --nv <container-name>.simg
+
+#### Without NVIDIA drivers
+> singularity shell <container-name>.simg
+
+## Notes

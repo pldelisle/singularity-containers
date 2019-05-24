@@ -56,16 +56,7 @@ https://gist.github.com/raulqf/a3caa97db3f8760af33266a1475d0e5e
 https://github.com/BVLC/caffe/wiki/OpenCV-3.2-Installation-Guide-on-Ubuntu-16.04
 
 ## Setup
-#### Building the container (with CUDA support)
-
-> singularity build <container-name>.simg  <path/to/container-name>.def
-> singularity shell --nv <container-name>.simg
-
-#### Building the container (without CUDA support)
-
-> singularity build <container-name>.simg  <path/to/container-name>.def
-> singularity shell <container-name>.simg
-
+See respective README in containers' folders.
 
 ## Project architecture
 ### Folder structure

@@ -17,8 +17,9 @@ This repository aims at keeping various versions of these libraries compiled in 
 -  [Authors](#authors)
 -  [References](#references)
 -  [Project architecture](#project-architecture)
+    -  [Why Singularity ?](#why-singularity-?)
     -  [Folder structure](#folder-structure)
-    -  [Main Components](#main-components)
+    -  [Continuous Integration](#continuous-integration)
  -  [Contributing](#contributing)
  -  [Branch naming](#branch-naming)
  -  [Commits syntax](#commits-syntax)
@@ -52,6 +53,11 @@ https://singularity.lbl.gov/docs-recipes#best-practices-for-build-recipes
 See respective README in containers' folders.
 
 ## Project architecture
+
+### Why Singularity ?
+
+We decided to choose Singularity over Docker because Singularity allows to run containers in user space, without the need to increase user privilege (e.g. adding user to a certain group with more privileges). This allows running containers on any Linux machine without any security risk.
+
 ### Folder structure
 
 ```

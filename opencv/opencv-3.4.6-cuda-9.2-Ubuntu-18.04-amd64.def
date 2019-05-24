@@ -256,7 +256,7 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
       -D CPU_DISPATCH=SSE4_2,AVX \
       -D CPU_DISPATCH=AVX \
       -D CPU_DISPATCH=AVX,AVX2 \
-      -D CUDA_GENERATION="Maxwell" -D CUDA_GENERATION="Pascal" -D CUDA_GENERATION="Volta" -D CUDA_GENERATION="Turing" ..
+      -D CUDA_GENERATION="Pascal" ..
 
     make -j 4
 

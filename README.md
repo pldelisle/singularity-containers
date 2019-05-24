@@ -78,7 +78,7 @@ Bamboo server is configured for building containers on a private server : pldeli
 
 To run this container :
 ```bash
-docker run -v /home/pierre-luc-delisle/Documents/bamboo:/var/atlassian/application-data/bamboo --name="bamboo-server" --privileged -d -p 54663:54663 -p 8086:8085 --restart always pldelisle/bamboo-server-singularity
+docker run -v /home/<USER>/Documents/bamboo:/var/atlassian/application-data/bamboo --name="bamboo-server" --privileged -d -p 54663:54663 -p 8086:8085 --restart always pldelisle/bamboo-server-singularity
 ```
 
 Image is stored on [Dockerhub](https://cloud.docker.com/u/pldelisle/repository/docker/pldelisle/bamboo-server-singularity)

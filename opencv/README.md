@@ -53,7 +53,7 @@ Need a download token directly from NVIDIA Developer Zone.
 > singularity build <container-name>.simg  <path/to/container-name>.def  
 
 
-### Running containers
+## Running containers
 
 #### With NVIDIA drivers
 > singularity shell --nv <container-name>.simg  

@@ -39,6 +39,7 @@ Need a download token directly from NVIDIA Developer Zone.
 > wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb -O /tmp/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb  
 
 ### To use ÉTS internal Proxy server
+Add line in the recipe under `&post` section.
 > export SINGULARITY_HTTP_PROXY="http://proxy.logti.etsmtl.ca:3128"  
 
 

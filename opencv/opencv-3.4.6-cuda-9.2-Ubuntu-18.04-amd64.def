@@ -155,6 +155,8 @@ From: nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
       libopencv-dev \
       qt5-default \
       libfontconfig1 \
+      libjasper1 \
+      libjasper-dev \
       doxygen"
 
 

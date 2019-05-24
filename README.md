@@ -60,8 +60,8 @@ See respective README in containers' folders.
 ├── icons                   - Contains project's artwork.
 |
 ├── opencv                  - OpenCV containers.
-│   ├── opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.def.def                  - CUDA enabled OpenCV container.
-│   └── opencv-3.4.6-Ubuntu-18.04-amd64.def.def                           - x86-64 optimized OpenCV container.
+│   ├── opencv-3.4.6-cuda-9.2-Ubuntu-18.04-amd64.def.def  - CUDA enabled OpenCV container.
+│   └── opencv-3.4.6-Ubuntu-18.04-amd64.def.def           - x86-64 optimized OpenCV container.
 |
 ├── pytorch                 - PyTorch containers.
 |   └── .def
